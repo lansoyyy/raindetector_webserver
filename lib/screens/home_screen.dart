@@ -27,7 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.updatespage);
+                  },
                   child: TextRegular(
                     text: 'Live Weather Updates',
                     fontSize: 14,

@@ -70,60 +70,156 @@ class _WeatherUpdatesScreenState extends State<WeatherUpdatesScreen> {
           ),
           Container(
             color: Colors.black,
-            height: 400,
-            width: 800,
-            child: Center(
-              child: Container(
-                height: 50,
-                width: 600,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(100)),
-                child: TextFormField(
-                  textCapitalization: TextCapitalization.sentences,
-                  controller: messageController,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(
-                      Icons.search,
+            height: 300,
+            width: 600,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Container(
+              height: 50,
+              width: 500,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(100)),
+              child: TextFormField(
+                textCapitalization: TextCapitalization.sentences,
+                controller: messageController,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                  suffixIcon: filter != ''
+                      ? IconButton(
+                          onPressed: (() {
+                            setState(() {
+                              filter = '';
+                              messageController.clear();
+                            });
+                          }),
+                          icon: const Icon(
+                            Icons.close_rounded,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : const SizedBox(),
+                  fillColor: Colors.white,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      width: 1,
                       color: Colors.grey,
                     ),
-                    suffixIcon: filter != ''
-                        ? IconButton(
-                            onPressed: (() {
-                              setState(() {
-                                filter = '';
-                                messageController.clear();
-                              });
-                            }),
-                            icon: const Icon(
-                              Icons.close_rounded,
-                              color: Colors.grey,
-                            ),
-                          )
-                        : const SizedBox(),
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        width: 1,
-                        color: Colors.grey,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 1, color: Colors.black),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    hintText: 'Find Location',
-                    border: InputBorder.none,
+                    borderRadius: BorderRadius.circular(100),
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      filter = value;
-                    });
-                  },
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 1, color: Colors.black),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  hintText: 'Find Location',
+                  border: InputBorder.none,
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    filter = value;
+                  });
+                },
               ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 500,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    TextBold(
+                      text: '24hour Forecast',
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextBold(
+                                text: '60°', fontSize: 18, color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Image.asset(
+                              'assets/images/1.png',
+                              width: 50,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextBold(
+                                text: '30°', fontSize: 18, color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Image.asset(
+                              'assets/images/2.png',
+                              width: 50,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextBold(
+                                text: '15°', fontSize: 18, color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Image.asset(
+                              'assets/images/3.png',
+                              width: 50,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 200,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TextRegular(
+                        text:
+                            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                        fontSize: 14,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           const Expanded(
