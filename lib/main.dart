@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rain_detector_webserver/screens/aboutus_screen.dart';
+import 'package:rain_detector_webserver/screens/contactus_screen.dart';
 import 'package:rain_detector_webserver/screens/home_screen.dart';
 import 'package:rain_detector_webserver/utils/routes.dart';
 
@@ -15,6 +17,8 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       routes: {
         Routes.homepage: (context) => const HomeScreen(),
+        Routes.aboutuspage: (context) => const AboutusScreen(),
+        Routes.contactuspage: (context) => const ContactUsScreen(),
       },
     );
   }

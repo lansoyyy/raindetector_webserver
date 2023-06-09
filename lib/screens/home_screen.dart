@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rain_detector_webserver/widgets/text_widget.dart';
 
+import '../utils/routes.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -36,7 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 20,
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.aboutuspage);
+                  },
                   child: TextRegular(
                     text: 'About Us',
                     fontSize: 14,
@@ -135,7 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 50,
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.contactuspage);
+                  },
                   child: TextRegular(
                     text: 'Need Help? Contact Us',
                     fontSize: 14,
