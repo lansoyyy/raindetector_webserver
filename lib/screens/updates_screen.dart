@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:rain_detector_webserver/utils/const.dart';
 import 'package:rain_detector_webserver/widgets/text_widget.dart';
 import 'package:latlong2/latlong.dart';
 import '../utils/routes.dart';
+import 'package:http/http.dart' as http;
 
 class WeatherUpdatesScreen extends StatefulWidget {
   const WeatherUpdatesScreen({super.key});
@@ -15,6 +19,9 @@ class _WeatherUpdatesScreenState extends State<WeatherUpdatesScreen> {
   final messageController = TextEditingController();
 
   String filter = '';
+  String description = '';
+  String temperature = '0';
+  String cloud1 = '0';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +83,9 @@ class _WeatherUpdatesScreenState extends State<WeatherUpdatesScreen> {
               width: 800,
               child: FlutterMap(
                 options: MapOptions(
+                  onTap: (tapPosition, point) {
+                    getApiData(point.latitude, point.longitude);
+                  },
                   center: LatLng(8.4803, 124.6498),
                   zoom: 18.0,
                 ),
@@ -83,69 +93,12 @@ class _WeatherUpdatesScreenState extends State<WeatherUpdatesScreen> {
                   TileLayer(
                     urlTemplate:
                         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.example.phara_driver',
                   ),
                 ],
               ),
             ),
             const SizedBox(
               height: 20,
-            ),
-            Center(
-              child: Container(
-                height: 50,
-                width: 500,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(100)),
-                child: TextFormField(
-                  textCapitalization: TextCapitalization.sentences,
-                  controller: messageController,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
-                    suffixIcon: filter != ''
-                        ? IconButton(
-                            onPressed: (() {
-                              setState(() {
-                                filter = '';
-                                messageController.clear();
-                              });
-                            }),
-                            icon: const Icon(
-                              Icons.close_rounded,
-                              color: Colors.grey,
-                            ),
-                          )
-                        : const SizedBox(),
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        width: 1,
-                        color: Colors.grey,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 1, color: Colors.black),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    hintText: 'Find Location',
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      filter = value;
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
             ),
             SizedBox(
               width: 500,
@@ -172,7 +125,7 @@ class _WeatherUpdatesScreenState extends State<WeatherUpdatesScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextBold(
-                                  text: '60°',
+                                  text: temperature,
                                   fontSize: 18,
                                   color: Colors.black),
                               const SizedBox(
@@ -191,7 +144,7 @@ class _WeatherUpdatesScreenState extends State<WeatherUpdatesScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextBold(
-                                  text: '30°',
+                                  text: cloud1,
                                   fontSize: 18,
                                   color: Colors.black),
                               const SizedBox(
@@ -199,25 +152,6 @@ class _WeatherUpdatesScreenState extends State<WeatherUpdatesScreen> {
                               ),
                               Image.asset(
                                 'assets/images/2.png',
-                                width: 50,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextBold(
-                                  text: '15°',
-                                  fontSize: 18,
-                                  color: Colors.black),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Image.asset(
-                                'assets/images/3.png',
                                 width: 50,
                               ),
                             ],
@@ -233,8 +167,7 @@ class _WeatherUpdatesScreenState extends State<WeatherUpdatesScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         TextRegular(
-                          text:
-                              'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                          text: 'Weather Description:\n$description',
                           fontSize: 14,
                           color: Colors.black,
                         ),
@@ -274,5 +207,54 @@ class _WeatherUpdatesScreenState extends State<WeatherUpdatesScreen> {
         ),
       ),
     );
+  }
+
+  getApiData(lat, long) async {
+    var uri =
+        '$apiEnpoint?lat=$lat&lon=$long&appid=67a96ca939095cc12748c226c7d3851c';
+    try {
+      var response = await http.get(Uri.parse(uri));
+
+      if (response.statusCode == 200) {
+        // Request was successful
+        var data = json.decode(response.body);
+        var weatherDescription = data['weather'][0]['description'];
+        var temperatureKelvin = data['main']['temp'];
+        var temperatureCelsius =
+            temperatureKelvin - 273.15; // Convert from Kelvin to Celsius
+        var cloud = data['clouds']['all'];
+
+        var name = data['name'];
+
+        print('Weather Description: $weatherDescription');
+        print('Temperature: ${temperatureCelsius.toStringAsFixed(2)}°C');
+        print('Cloud: $cloud');
+
+        print('Location: $name');
+
+        setState(() {
+          temperature = '${temperatureCelsius.toStringAsFixed(2)}°C';
+          cloud1 = '$cloud%';
+          description = '$weatherDescription';
+        });
+
+        // Suggest crops based on weather conditions
+
+        // Show success snackbar
+        // showSnackbar('Request successful');
+      } else {
+        // Request failed
+        print('Request failed with status: ${response.statusCode}');
+
+        // Show error snackbar
+        // showSnackbar('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      // An error occurred
+      print('Error: $e');
+
+      // Show error snackbar
+      // showSnackbar('An error occurred');
+    }
   }
 }

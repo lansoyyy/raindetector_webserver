@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_map:
   flutter_google_places:
+  http:
 
 dev_dependencies:
   flutter_test:

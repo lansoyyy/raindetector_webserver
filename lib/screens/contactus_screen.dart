@@ -93,7 +93,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       width: 400,
                       child: TextRegular(
                         text:
-                            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+                            'We would love to hear from you! If you have any inquiries or would like to learn more about our rain detection systems using microcontrollers, please dont hesitate to get in touch with us.\n\nPhone: +639530422231\nEmail: raindetector@gmail.com\n\nOur dedicated team is available to answer your questions, provide technical support, and discuss customized solutions to meet your specific rain detection needs. Feel free to reach out to us and let us assist you in optimizing your weather monitoring and protection systems.',
                         fontSize: 14,
                         color: Colors.black,
                       ),

@@ -60,8 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Center(
             child: TextBold(
-              text: 'Rain Detector',
-              fontSize: 48,
+              text: 'Welcome',
+              fontSize: 24,
               color: Colors.black,
             ),
           ),
@@ -69,60 +69,22 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 10,
           ),
           Container(
-            color: Colors.black,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.black,
+              image: const DecorationImage(
+                opacity: 100,
+                image: AssetImage('assets/images/back.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
             height: 400,
             width: 800,
             child: Center(
-              child: Container(
-                height: 50,
-                width: 600,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(100)),
-                child: TextFormField(
-                  textCapitalization: TextCapitalization.sentences,
-                  controller: messageController,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
-                    suffixIcon: filter != ''
-                        ? IconButton(
-                            onPressed: (() {
-                              setState(() {
-                                filter = '';
-                                messageController.clear();
-                              });
-                            }),
-                            icon: const Icon(
-                              Icons.close_rounded,
-                              color: Colors.grey,
-                            ),
-                          )
-                        : const SizedBox(),
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        width: 1,
-                        color: Colors.grey,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 1, color: Colors.black),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    hintText: 'Find Location',
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      filter = value;
-                    });
-                  },
-                ),
+              child: TextBold(
+                text: 'Rain Detector System',
+                fontSize: 65,
+                color: Colors.white,
               ),
             ),
           ),
